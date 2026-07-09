@@ -47,10 +47,14 @@
   --shadow-glow: 0 20px 60px -20px color-mix(in oklab, var(--royal) 35%, transparent);
   --shadow-elegant: 0 10px 40px -12px color-mix(in oklab, var(--navy) 18%, transparent);
   --shadow-soft: 0 4px 24px -8px color-mix(in oklab, var(--navy) 10%, transparent);
+  --shadow-blue-glow: 0 12px 40px rgba(37, 99, 235, 0.18);
+  --shadow-card-hover: 0 12px 40px rgba(37, 99, 235, 0.15), 0 4px 12px rgba(0, 0, 0, 0.06);
 
-  --gradient-royal: linear-gradient(135deg, oklch(0.52 0.24 265), oklch(0.62 0.22 255));
+  --gradient-royal: linear-gradient(135deg, #2563EB 0%, #7C3AED 100%);
+  --gradient-accent: linear-gradient(135deg, #2563EB 0%, #7C3AED 100%);
   --gradient-hero: radial-gradient(1200px 600px at 80% -10%, color-mix(in oklab, var(--royal) 22%, transparent), transparent 60%), radial-gradient(900px 500px at 0% 20%, color-mix(in oklab, var(--royal) 12%, transparent), transparent 60%);
   --gradient-mesh: linear-gradient(180deg, #ffffff 0%, #f6f8fd 60%, #eef3fc 100%);
+  --gradient-dark-mesh: radial-gradient(ellipse 80% 50% at 20% 40%, rgba(37,99,235,0.15) 0%, transparent 60%), radial-gradient(ellipse 60% 40% at 80% 60%, rgba(124,58,237,0.12) 0%, transparent 60%);
 }
 
 :root {
@@ -118,9 +122,18 @@
   h1, h2, h3, h4 { font-family: var(--font-display); letter-spacing: -0.02em; }
 }
 
+/* ============================================================
+   KEYFRAMES
+   ============================================================ */
+
 @keyframes float-y {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-14px); }
+}
+@keyframes float-y-sm {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  33% { transform: translateY(-8px) rotate(3deg); }
+  66% { transform: translateY(-4px) rotate(-2deg); }
 }
 @keyframes blob-shift {
   0%, 100% { transform: translate(0,0) scale(1); }
@@ -135,22 +148,87 @@
   0%,100% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
 }
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.35; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.08); }
+}
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes mesh-drift {
+  0%, 100% { transform: translate(0px, 0px) scale(1); }
+  25% { transform: translate(40px, -30px) scale(1.06); }
+  50% { transform: translate(-20px, 40px) scale(0.96); }
+  75% { transform: translate(30px, 20px) scale(1.03); }
+}
+
+/* ============================================================
+   ANIMATION UTILITIES
+   ============================================================ */
 
 @utility animate-float { animation: float-y 6s ease-in-out infinite; }
+@utility animate-float-sm { animation: float-y-sm 4s ease-in-out infinite; }
 @utility animate-blob { animation: blob-shift 18s ease-in-out infinite; }
+@utility animate-pulse-glow { animation: pulse-glow 3s ease-in-out infinite; }
+@utility animate-spin-slow { animation: spin-slow 20s linear infinite; }
+@utility animate-mesh { animation: mesh-drift 22s ease-in-out infinite; }
 @utility animate-gradient-pan {
   background-size: 200% 200%;
   animation: gradient-pan 12s ease infinite;
 }
 
+/* ============================================================
+   BACKGROUND / TEXTURE UTILITIES
+   ============================================================ */
+
 @utility bg-hero-mesh { background: var(--gradient-hero), var(--gradient-mesh); }
 @utility bg-royal-gradient { background: var(--gradient-royal); }
+@utility bg-dark-section {
+  background-color: #0A0E27;
+  background-image: var(--gradient-dark-mesh);
+  position: relative;
+}
+
+/* Subtle dot-grid texture — place as ::before or as a child div */
+@utility dot-grid {
+  background-image: radial-gradient(circle, rgba(37,99,235,0.18) 1px, transparent 1px);
+  background-size: 28px 28px;
+  opacity: 0.04;
+}
+
+/* For a full-cover dot grid overlay */
+@utility dot-grid-overlay {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(100,130,255,0.25) 1px, transparent 1px);
+  background-size: 28px 28px;
+  pointer-events: none;
+  opacity: 0.035;
+}
+
+/* ============================================================
+   GRADIENT TEXT
+   ============================================================ */
+
 @utility text-royal-gradient {
   background: var(--gradient-royal);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
+@utility text-cyan-gradient {
+  background: linear-gradient(90deg, #60A5FA 0%, #22D3EE 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ============================================================
+   CARD UTILITIES
+   ============================================================ */
+
 @utility glass-card {
   background: color-mix(in oklab, white 70%, transparent);
   backdrop-filter: blur(20px) saturate(140%);
@@ -158,6 +236,73 @@
   border: 1px solid color-mix(in oklab, white 60%, transparent);
   box-shadow: var(--shadow-soft);
 }
+@utility glass-card-dark {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+}
+@utility card-base {
+  border-radius: 20px;
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.04);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@utility card-hover-effect {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@utility card-hover-effect:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(37, 99, 235, 0.15), 0 4px 12px rgba(0,0,0,0.06);
+}
+
+/* ============================================================
+   BADGE LABEL UTILITY
+   ============================================================ */
+
+@utility badge-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  padding: 0.25rem 0.875rem;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+/* ============================================================
+   SHADOW UTILITIES
+   ============================================================ */
+
 @utility shadow-glow { box-shadow: var(--shadow-glow); }
 @utility shadow-elegant { box-shadow: var(--shadow-elegant); }
 @utility shadow-soft { box-shadow: var(--shadow-soft); }
+@utility shadow-blue-glow { box-shadow: var(--shadow-blue-glow); }
+@utility shadow-card-hover { box-shadow: var(--shadow-card-hover); }
+
+/* ============================================================
+   MOBILE CAROUSEL
+   ============================================================ */
+
+@utility mobile-carousel {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  scrollbar-width: none;
+}
+@utility mobile-carousel::-webkit-scrollbar {
+  display: none;
+}
+@utility carousel-item {
+  scroll-snap-align: center;
+  flex-shrink: 0;
+}

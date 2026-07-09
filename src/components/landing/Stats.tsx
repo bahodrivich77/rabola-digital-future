@@ -37,16 +37,66 @@ function Counter({ to, suffix }: { to: number; suffix: string }) {
 
 export function Stats() {
   return (
-    <section className="relative py-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+    <section
+      className="relative py-24 overflow-hidden"
+      style={{ backgroundColor: "#0A0E27" }}
+    >
+      {/* Dot-grid texture overlay */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          backgroundImage: "radial-gradient(circle, rgba(100,130,255,0.25) 1px, transparent 1px)",
+          backgroundSize: "28px 28px",
+          opacity: 0.06,
+        }}
+      />
+
+      {/* Animated mesh blobs */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div
+          className="absolute -top-32 -left-32 h-96 w-96 rounded-full blur-3xl animate-mesh opacity-30"
+          style={{ background: "radial-gradient(circle, #2563EB 0%, transparent 70%)" }}
+        />
+        <div
+          className="absolute -bottom-24 -right-24 h-80 w-80 rounded-full blur-3xl animate-mesh opacity-25"
+          style={{ background: "radial-gradient(circle, #7C3AED 0%, transparent 70%)", animationDelay: "-8s" }}
+        />
+        <div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[600px] w-[600px] rounded-full blur-3xl opacity-10"
+          style={{ background: "radial-gradient(circle, rgba(37,99,235,0.5) 0%, transparent 60%)" }}
+        />
+      </div>
+
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
         <Reveal className="text-center max-w-2xl mx-auto">
-          <div className="inline-flex items-center gap-2 rounded-full bg-royal/10 text-royal px-3 py-1 text-xs font-medium">
+          <div
+            className="badge-label"
+            style={{
+              background: "rgba(255,255,255,0.08)",
+              border: "1px solid rgba(255,255,255,0.12)",
+              color: "#60A5FA",
+            }}
+          >
             Ishonch va natijalar
           </div>
-          <h2 className="mt-4 font-display text-4xl sm:text-5xl font-bold text-navy tracking-tight">
-            Ota-onalar bizga <span className="text-royal-gradient">ishonadi</span>
+          <h2
+            className="mt-4 font-display text-4xl sm:text-5xl font-bold tracking-tight text-white"
+          >
+            Ota-onalar bizga{" "}
+            <span
+              style={{
+                background: "linear-gradient(90deg, #60A5FA, #22D3EE)",
+                WebkitBackgroundClip: "text",
+                backgroundClip: "text",
+                color: "transparent",
+                display: "inline-block",
+              }}
+            >
+              ishonadi
+            </span>
           </h2>
-          <p className="mt-4 text-navy/70">
+          <p className="mt-4 text-white/60">
             Har bir raqam — bu farzandlarning aniq natijasi va ota-onalarning
             xotirjamligi.
           </p>
@@ -57,13 +107,28 @@ export function Stats() {
             <Item
               key={s.label}
               variants={{ hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } } }}
-              whileHover={{ y: -6 }}
-              className="glass-card rounded-3xl p-8 text-center shadow-soft hover:shadow-elegant transition-shadow"
+              whileHover={{ y: -6, scale: 1.02 }}
+              className="rounded-[20px] p-8 text-center transition-all duration-300"
+              style={{
+                background: "rgba(255,255,255,0.06)",
+                backdropFilter: "blur(20px)",
+                WebkitBackdropFilter: "blur(20px)",
+                border: "1px solid rgba(255,255,255,0.10)",
+                boxShadow: "0 4px 24px rgba(0,0,0,0.2)",
+              }}
             >
-              <div className="font-display text-5xl font-bold text-royal-gradient">
+              <div
+                className="font-display text-5xl font-bold"
+                style={{
+                  background: "linear-gradient(135deg, #60A5FA 0%, #22D3EE 100%)",
+                  WebkitBackgroundClip: "text",
+                  backgroundClip: "text",
+                  color: "transparent",
+                }}
+              >
                 <Counter to={s.value} suffix={s.suffix} />
               </div>
-              <div className="mt-2 text-sm text-navy/70">{s.label}</div>
+              <div className="mt-2 text-sm text-white/60">{s.label}</div>
             </Item>
           ))}
         </StaggerGroup>

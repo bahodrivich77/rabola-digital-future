@@ -1,3 +1,4 @@
+import React from "react";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Clock, Users } from "lucide-react";
 import { Reveal, StaggerGroup, Item } from "./motion";
@@ -52,14 +53,39 @@ const courses = [
 
 export function Courses() {
   return (
-    <section id="courses" className="relative py-28 bg-mist/40">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+    <section id="courses" className="relative py-28 overflow-hidden" style={{ backgroundColor: "#F7F8FB" }}>
+      {/* Dot-grid texture */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          backgroundImage: "radial-gradient(circle, rgba(37,99,235,0.15) 1px, transparent 1px)",
+          backgroundSize: "28px 28px",
+          opacity: 0.035,
+        }}
+      />
+
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
         <Reveal className="max-w-3xl">
-          <div className="inline-flex items-center gap-2 rounded-full bg-royal/10 text-royal px-3 py-1 text-xs font-medium">
+          <div
+            className="badge-label"
+            style={{ background: "rgba(37,99,235,0.08)", color: "#2563EB" }}
+          >
             Kurslar
           </div>
           <h2 className="mt-4 font-display text-4xl sm:text-5xl font-bold text-navy tracking-tight">
-            Har bir yosh uchun <span className="text-royal-gradient">to'g'ri yo'nalish</span>
+            Har bir yosh uchun{" "}
+            <span
+              style={{
+                background: "linear-gradient(135deg,#2563EB,#7C3AED)",
+                WebkitBackgroundClip: "text",
+                backgroundClip: "text",
+                color: "transparent",
+                display: "inline-block",
+              }}
+            >
+              to'g'ri yo'nalish
+            </span>
           </h2>
           <p className="mt-4 text-lg text-navy/70">
             Rabola dasturlari xalqaro metodika asosida ishlab chiqilgan. Har bir
@@ -67,63 +93,195 @@ export function Courses() {
           </p>
         </Reveal>
 
-        <StaggerGroup className="mt-14 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {courses.map((c) => (
+        {/* Desktop grid */}
+        <div className="hidden md:block">
+          <StaggerGroup className="mt-14 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {courses.map((c) => (
+              <CourseCard key={c.name} c={c} />
+            ))}
+
+            {/* Coming soon */}
             <Item
-              key={c.name}
-              variants={{ hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } } }}
-              whileHover={{ y: -8 }}
-              className="group relative rounded-3xl overflow-hidden bg-white shadow-soft hover:shadow-elegant transition-all border border-border/60"
+              variants={{ hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0, transition: { duration: 0.7 } } }}
+              className="rounded-[20px] border-2 border-dashed p-8 flex flex-col justify-center items-start transition-all"
+              style={{ borderColor: "rgba(37,99,235,0.25)", background: "rgba(255,255,255,0.6)" }}
             >
-              <div className="relative aspect-[4/5] overflow-hidden bg-mist">
-                <motion.img
-                  src={c.img}
-                  alt={c.name}
-                  loading="lazy"
-                  className="h-full w-full object-cover"
-                  whileHover={{ scale: 1.06 }}
-                  transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                />
-                <div className="absolute top-4 left-4 rounded-full glass-card px-3 py-1 text-xs font-medium text-navy">
-                  {c.tag}
-                </div>
+              <div
+                className="badge-label"
+                style={{ background: "rgba(37,99,235,0.08)", color: "#2563EB" }}
+              >
+                Tez orada
               </div>
-              <div className="p-6">
-                <h3 className="font-display text-2xl font-bold text-navy">{c.name}</h3>
-                <div className="mt-2 flex items-center gap-4 text-sm text-navy/60">
-                  <span className="inline-flex items-center gap-1"><Users className="h-4 w-4" /> {c.age}</span>
-                  <span className="inline-flex items-center gap-1"><Clock className="h-4 w-4" /> {c.duration}</span>
-                </div>
-                <p className="mt-3 text-sm text-navy/70 leading-relaxed">{c.desc}</p>
-                <a
-                  href="#contact"
-                  className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-royal hover:gap-2 transition-all"
+              <h3 className="mt-4 font-display text-2xl font-bold text-navy">Yangi kurslar</h3>
+              <p className="mt-2 text-sm text-navy/70">
+                AI, 3D dizayn va Game development yo'nalishlari 2026-yilda ishga
+                tushiriladi. Birinchilardan bo'lib xabar oling.
+              </p>
+              <a href="#contact" className="mt-5 text-sm font-semibold text-royal hover:underline">
+                Ro'yxatga yozilish →
+              </a>
+            </Item>
+          </StaggerGroup>
+        </div>
+
+        {/* Mobile swipe carousel */}
+        <div className="md:hidden mt-10">
+          <div
+            style={{
+              display: "flex",
+              overflowX: "auto",
+              scrollSnapType: "x mandatory",
+              WebkitOverflowScrolling: "touch" as any,
+              gap: "1rem",
+              paddingBottom: "1rem",
+              scrollbarWidth: "none",
+              msOverflowStyle: "none",
+            } as React.CSSProperties}
+          >
+            {courses.map((c) => (
+              <div
+                key={c.name}
+                style={{
+                  scrollSnapAlign: "center",
+                  flexShrink: 0,
+                  width: "85vw",
+                  maxWidth: "340px",
+                }}
+              >
+                <MobileCourseCard c={c} />
+              </div>
+            ))}
+            {/* Coming soon card in mobile */}
+            <div
+              style={{
+                scrollSnapAlign: "center",
+                flexShrink: 0,
+                width: "85vw",
+                maxWidth: "340px",
+              }}
+            >
+              <div
+                className="rounded-[20px] border-2 border-dashed p-8 flex flex-col justify-center items-start h-full"
+                style={{ borderColor: "rgba(37,99,235,0.25)", background: "rgba(255,255,255,0.8)" }}
+              >
+                <div
+                  className="badge-label"
+                  style={{ background: "rgba(37,99,235,0.08)", color: "#2563EB" }}
                 >
-                  Batafsil ma'lumot <ArrowUpRight className="h-4 w-4" />
+                  Tez orada
+                </div>
+                <h3 className="mt-4 font-display text-2xl font-bold text-navy">Yangi kurslar</h3>
+                <p className="mt-2 text-sm text-navy/70">
+                  AI, 3D dizayn va Game development yo'nalishlari 2026-yilda ishga
+                  tushiriladi.
+                </p>
+                <a href="#contact" className="mt-5 text-sm font-semibold text-royal hover:underline">
+                  Ro'yxatga yozilish →
                 </a>
               </div>
-            </Item>
-          ))}
-
-          {/* Coming soon */}
-          <Item
-            variants={{ hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0, transition: { duration: 0.7 } } }}
-            className="rounded-3xl border border-dashed border-royal/30 bg-white/60 p-8 flex flex-col justify-center items-start"
-          >
-            <div className="inline-flex items-center gap-2 rounded-full bg-royal/10 text-royal px-3 py-1 text-xs font-medium">
-              Tez orada
             </div>
-            <h3 className="mt-4 font-display text-2xl font-bold text-navy">Yangi kurslar</h3>
-            <p className="mt-2 text-sm text-navy/70">
-              AI, 3D dizayn va Game development yo'nalishlari 2026-yilda ishga
-              tushiriladi. Birinchilardan bo'lib xabar oling.
-            </p>
-            <a href="#contact" className="mt-5 text-sm font-medium text-royal">
-              Ro'yxatga yozilish →
-            </a>
-          </Item>
-        </StaggerGroup>
+          </div>
+          {/* Swipe hint */}
+          <p className="text-center text-xs text-navy/40 mt-2">← Chapga suring →</p>
+        </div>
       </div>
     </section>
+  );
+}
+
+function CourseCard({ c }: { c: (typeof courses)[0] }) {
+  return (
+    <Item
+      variants={{ hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } } }}
+      whileHover={{ y: -4 }}
+      className="group relative overflow-hidden bg-white border border-black/5 transition-all duration-300"
+      style={{
+        borderRadius: "20px",
+        boxShadow: "0 1px 2px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.04)",
+      }}
+      onMouseEnter={(e) => {
+        (e.currentTarget as HTMLElement).style.boxShadow =
+          "0 12px 40px rgba(37,99,235,0.15), 0 4px 12px rgba(0,0,0,0.06)";
+      }}
+      onMouseLeave={(e) => {
+        (e.currentTarget as HTMLElement).style.boxShadow =
+          "0 1px 2px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.04)";
+      }}
+    >
+      <div className="relative aspect-[4/3] overflow-hidden bg-mist">
+        <motion.img
+          src={c.img}
+          alt={c.name}
+          loading="lazy"
+          className="h-full w-full object-cover"
+          whileHover={{ scale: 1.06 }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-navy/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        <div
+          className="absolute top-4 left-4 rounded-full px-3 py-1 text-xs font-semibold text-white"
+          style={{ background: "linear-gradient(135deg,#2563EB,#7C3AED)" }}
+        >
+          {c.tag}
+        </div>
+      </div>
+      <div className="p-6">
+        <h3 className="font-display text-2xl font-bold text-navy">{c.name}</h3>
+        <div className="mt-2 flex items-center gap-4 text-sm text-navy/60">
+          <span className="inline-flex items-center gap-1"><Users className="h-4 w-4" /> {c.age}</span>
+          <span className="inline-flex items-center gap-1"><Clock className="h-4 w-4" /> {c.duration}</span>
+        </div>
+        <p className="mt-3 text-sm text-navy/70 leading-relaxed">{c.desc}</p>
+        <a
+          href="#contact"
+          className="mt-5 inline-flex items-center gap-1 text-sm font-semibold hover:gap-2 transition-all"
+          style={{ color: "#2563EB" }}
+        >
+          Batafsil ma'lumot <ArrowUpRight className="h-4 w-4" />
+        </a>
+      </div>
+    </Item>
+  );
+}
+
+function MobileCourseCard({ c }: { c: (typeof courses)[0] }) {
+  return (
+    <div
+      className="group relative overflow-hidden bg-white border border-black/5"
+      style={{
+        borderRadius: "20px",
+        boxShadow: "0 1px 2px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.04)",
+      }}
+    >
+      <div className="relative aspect-[4/3] overflow-hidden bg-mist">
+        <img
+          src={c.img}
+          alt={c.name}
+          loading="lazy"
+          className="h-full w-full object-cover"
+        />
+        <div
+          className="absolute top-4 left-4 rounded-full px-3 py-1 text-xs font-semibold text-white"
+          style={{ background: "linear-gradient(135deg,#2563EB,#7C3AED)" }}
+        >
+          {c.tag}
+        </div>
+      </div>
+      <div className="p-5">
+        <h3 className="font-display text-xl font-bold text-navy">{c.name}</h3>
+        <div className="mt-2 flex items-center gap-3 text-sm text-navy/60">
+          <span className="inline-flex items-center gap-1"><Users className="h-4 w-4" /> {c.age}</span>
+          <span className="inline-flex items-center gap-1"><Clock className="h-4 w-4" /> {c.duration}</span>
+        </div>
+        <p className="mt-3 text-sm text-navy/70 leading-relaxed">{c.desc}</p>
+        <a
+          href="#contact"
+          className="mt-4 inline-flex items-center gap-1 text-sm font-semibold"
+          style={{ color: "#2563EB" }}
+        >
+          Batafsil ma'lumot <ArrowUpRight className="h-4 w-4" />
+        </a>
+      </div>
+    </div>
   );
 }

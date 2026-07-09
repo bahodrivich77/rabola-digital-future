@@ -17,14 +17,39 @@ const items = [
 
 export function WhyRabola() {
   return (
-    <section id="why" className="relative py-28">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+    <section id="why" className="relative py-28 bg-white overflow-hidden">
+      {/* Subtle dot grid */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          backgroundImage: "radial-gradient(circle, rgba(37,99,235,0.12) 1px, transparent 1px)",
+          backgroundSize: "32px 32px",
+          opacity: 0.03,
+        }}
+      />
+
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
         <Reveal className="max-w-3xl">
-          <div className="inline-flex items-center gap-2 rounded-full bg-royal/10 text-royal px-3 py-1 text-xs font-medium">
+          <div
+            className="badge-label"
+            style={{ background: "rgba(37,99,235,0.08)", color: "#2563EB" }}
+          >
             Nega Rabola?
           </div>
           <h2 className="mt-4 font-display text-4xl sm:text-5xl font-bold text-navy tracking-tight">
-            Farzandingiz uchun eng <span className="text-royal-gradient">yaxshi tanlov</span>
+            Farzandingiz uchun eng{" "}
+            <span
+              style={{
+                background: "linear-gradient(135deg,#2563EB,#7C3AED)",
+                WebkitBackgroundClip: "text",
+                backgroundClip: "text",
+                color: "transparent",
+                display: "inline-block",
+              }}
+            >
+              yaxshi tanlov
+            </span>
           </h2>
           <p className="mt-4 text-lg text-navy/70">
             Biz ta'limni farzandlarning kelajagiga qilingan eng muhim
@@ -37,10 +62,24 @@ export function WhyRabola() {
             <Item
               key={it.title}
               variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { duration: 0.6 } } }}
-              whileHover={{ y: -6 }}
-              className="rounded-3xl bg-white border border-border/60 p-6 hover:shadow-elegant transition-shadow"
+              whileHover={{ y: -4 }}
+              className="group rounded-[20px] bg-white border border-black/5 p-6 transition-all duration-300 cursor-default"
+              style={{
+                boxShadow: "0 1px 2px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.04)",
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.boxShadow =
+                  "0 12px 40px rgba(37,99,235,0.13), 0 4px 12px rgba(0,0,0,0.05)";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.boxShadow =
+                  "0 1px 2px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.04)";
+              }}
             >
-              <div className="h-11 w-11 rounded-2xl bg-royal-gradient text-white grid place-items-center shadow-glow">
+              <div
+                className="h-11 w-11 rounded-2xl text-white grid place-items-center shadow-glow"
+                style={{ background: "linear-gradient(135deg,#2563EB,#7C3AED)" }}
+              >
                 <it.icon className="h-5 w-5" />
               </div>
               <h3 className="mt-5 font-display text-lg font-semibold text-navy">{it.title}</h3>
