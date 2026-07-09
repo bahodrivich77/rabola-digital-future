@@ -1,24 +1,56 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Nav } from "@/components/landing/Nav";
+import { Hero } from "@/components/landing/Hero";
+import { Stats } from "@/components/landing/Stats";
+import { Courses } from "@/components/landing/Courses";
+import { WhyRabola } from "@/components/landing/WhyRabola";
+import { Process } from "@/components/landing/Process";
+import { Gallery } from "@/components/landing/Gallery";
+import { Testimonials } from "@/components/landing/Testimonials";
+import { Mentors } from "@/components/landing/Mentors";
+import { FAQ } from "@/components/landing/FAQ";
+import { CTA } from "@/components/landing/CTA";
+import { Footer } from "@/components/landing/Footer";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
-  component: Index,
+  component: Landing,
+  head: () => ({
+    meta: [
+      { title: "Rabola — Kelajak kasblari shu yerdan boshlanadi" },
+      {
+        name: "description",
+        content:
+          "Rabola — bolalar va o'smirlar uchun raqamli ko'nikmalar markazi. Robototexnika, dasturlash va ofis dasturlari bo'yicha amaliy kurslar.",
+      },
+      { property: "og:title", content: "Rabola — Raqamli ta'lim markazi" },
+      {
+        property: "og:description",
+        content:
+          "Farzandingizning kelajagi bugun quriladi. Amaliy kurslar, tajribali ustozlar, zamonaviy sinflar.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
+function Landing() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
+      <Nav />
+      <main>
+        <Hero />
+        <Stats />
+        <Courses />
+        <WhyRabola />
+        <Process />
+        <Gallery />
+        <Testimonials />
+        <Mentors />
+        <FAQ />
+        <CTA />
+      </main>
+      <Footer />
     </div>
   );
 }
