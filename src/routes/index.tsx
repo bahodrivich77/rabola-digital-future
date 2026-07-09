@@ -22,11 +22,11 @@ export const Route = createFileRoute("/")({
         content:
           "Rabola — bolalar va o'smirlar uchun raqamli ko'nikmalar markazi. Robototexnika, dasturlash va ofis dasturlari bo'yicha amaliy kurslar.",
       },
-      { property: "og:title", content: "Rabola — Raqamli ta'lim markazi" },
+      { property: "og:title", content: "Rabola — Kelajak kasblari shu yerdan boshlanadi" },
       {
         property: "og:description",
         content:
-          "Farzandingizning kelajagi bugun quriladi. Amaliy kurslar, tajribali ustozlar, zamonaviy sinflar.",
+          "Rabola — bolalar va o'smirlar uchun raqamli ko'nikmalar markazi. Robototexnika, dasturlash va ofis dasturlari bo'yicha amaliy kurslar.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
