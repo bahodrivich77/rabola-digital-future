@@ -254,10 +254,10 @@
 }
 @utility card-hover-effect {
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-@utility card-hover-effect:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(37, 99, 235, 0.15), 0 4px 12px rgba(0,0,0,0.06);
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(37, 99, 235, 0.15), 0 4px 12px rgba(0,0,0,0.06);
+  }
 }
 
 /* ============================================================
@@ -298,9 +298,9 @@
   gap: 1rem;
   padding-bottom: 1rem;
   scrollbar-width: none;
-}
-@utility mobile-carousel::-webkit-scrollbar {
-  display: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 @utility carousel-item {
   scroll-snap-align: center;
